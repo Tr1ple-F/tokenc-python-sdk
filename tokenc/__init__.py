@@ -22,7 +22,7 @@ from tokenc.errors import (
 )
 from tokenc.constants import Model
 
-__version__ = "0.1.1"
+__version__ = "0.1.2"
 
 __all__ = [
     "TokenClient",
