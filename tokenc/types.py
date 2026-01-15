@@ -22,8 +22,8 @@ class CompressionSettings:
 
     def __post_init__(self):
         """Validate compression settings."""
-        if not 0.0 <= self.aggressiveness <= 1.0:
-            raise ValueError("aggressiveness must be between 0.0 and 1.0")
+        if not 0.0 < self.aggressiveness < 1.0:
+            raise ValueError("aggressiveness must be between 0.0 and 1.0 (exclusive)")
 
         if self.max_output_tokens is not None and self.max_output_tokens < 1:
             raise ValueError("max_output_tokens must be positive")

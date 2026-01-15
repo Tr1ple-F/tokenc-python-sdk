@@ -155,44 +155,66 @@ python -m twine upload --repository testpypi dist/*
 python -m twine upload dist/*
 ```
 
-## Automated Publishing with GitHub Actions
+## Automated Publishing with GitHub Actions (RECOMMENDED)
 
-Create `.github/workflows/publish.yml`:
+The repository is now configured with automated PyPI publishing! Here's how it works:
 
-```yaml
-name: Publish to PyPI
+### One-Time Setup
 
-on:
-  release:
-    types: [published]
+1. **Get your PyPI API token**:
+   - Go to https://pypi.org/manage/account/token/
+   - Create a new API token (scope: "Entire account" or "Project: tokenc")
+   - Copy the token (starts with `pypi-`)
 
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v3
+2. **Add token to GitHub secrets**:
+   - Go to your repository on GitHub
+   - Click: Settings → Secrets and variables → Actions
+   - Click "New repository secret"
+   - Name: `PYPI_API_TOKEN`
+   - Value: paste your PyPI token
+   - Click "Add secret"
 
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.9'
+### Publishing a New Version (Simple!)
 
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install build twine
+Once setup is complete, publishing is as easy as:
 
-    - name: Build package
-      run: python -m build
-
-    - name: Publish to PyPI
-      env:
-        TWINE_USERNAME: __token__
-        TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
-      run: python -m twine upload dist/*
+```bash
+# Use the helper script to bump version and publish
+./bump_version.sh patch   # 0.1.0 → 0.1.1
+./bump_version.sh minor   # 0.1.0 → 0.2.0
+./bump_version.sh major   # 0.1.0 → 1.0.0
+./bump_version.sh 1.2.3   # Set to specific version
 ```
 
-Add your PyPI API token as a GitHub secret named `PYPI_API_TOKEN`.
+**That's it!** The script will:
+1. Update version in all files (pyproject.toml, setup.py, __init__.py)
+2. Commit the changes
+3. Create and push a git tag (e.g., `v0.1.1`)
+4. GitHub Actions automatically builds and publishes to PyPI
+5. Creates a GitHub Release
+
+### How It Works
+
+The workflow (`.github/workflows/publish.yml`) is triggered when you push a version tag:
+
+- Detects tags matching `v*.*.*` (e.g., `v0.1.0`, `v1.2.3`)
+- Automatically updates version in all files
+- Builds the package
+- Runs quality checks with twine
+- Publishes to PyPI
+- Creates a GitHub Release with artifacts
+
+### Monitoring
+
+After pushing a tag, you can watch the progress:
+
+1. **GitHub Actions**: Go to "Actions" tab in your repo
+2. **PyPI**: Check https://pypi.org/project/tokenc/ for the new version
+3. **Releases**: New release appears in "Releases" section
+
+### Manual Publishing (Alternative)
+
+If you prefer manual control, you can still publish manually:
 
 ## Publishing Checklist
 

@@ -10,8 +10,10 @@ from tokenc.types import CompressionSettings, CompressResponse
 from tokenc.errors import (
     AuthenticationError,
     InvalidRequestError,
-    APIError,
+    PaymentRequiredError,
+    RequestTooLargeError,
     RateLimitError,
+    APIError,
 )
 
 
@@ -59,17 +61,34 @@ class TokenClient:
 
     def _handle_error(self, response: requests.Response) -> None:
         """Handle API error responses."""
-        if response.status_code == 401:
-            raise AuthenticationError("Invalid API key")
-        elif response.status_code == 400:
-            error_msg = response.json().get("error", "Invalid request")
-            raise InvalidRequestError(error_msg)
-        elif response.status_code == 429:
-            raise RateLimitError("Rate limit exceeded")
-        elif response.status_code >= 500:
-            raise APIError(f"Server error: {response.status_code}")
+        try:
+            response_data = response.json()
+            detail = response_data.get("detail", "Unknown error")
+        except Exception:
+            detail = response.text or "Unknown error"
+
+        # Parse detail - it can be a string or dict
+        if isinstance(detail, dict):
+            error_msg = detail.get("message", str(detail))
         else:
-            raise APIError(f"API error: {response.status_code}")
+            error_msg = str(detail)
+
+        if response.status_code == 401:
+            raise AuthenticationError(error_msg)
+        elif response.status_code == 402:
+            # Payment required - account suspended or insufficient balance
+            raise PaymentRequiredError(error_msg)
+        elif response.status_code == 413:
+            # Request too large
+            raise RequestTooLargeError(error_msg)
+        elif response.status_code == 429:
+            raise RateLimitError(error_msg)
+        elif response.status_code >= 500:
+            raise APIError(f"Server error: {error_msg}")
+        elif response.status_code == 400:
+            raise InvalidRequestError(error_msg)
+        else:
+            raise APIError(f"API error ({response.status_code}): {error_msg}")
 
     def compress_input(
         self,
@@ -100,8 +119,10 @@ class TokenClient:
             CompressResponse containing the compressed output and metadata
 
         Raises:
-            AuthenticationError: If API key is invalid
+            AuthenticationError: If API key is invalid or inactive
             InvalidRequestError: If request parameters are invalid
+            PaymentRequiredError: If account has insufficient balance or exceeded debt limit
+            RequestTooLargeError: If request exceeds size limits (>10M tokens)
             RateLimitError: If rate limit is exceeded
             APIError: For other API errors
 
@@ -114,6 +135,10 @@ class TokenClient:
             >>> print(f"Compressed: {response.output}")
             >>> print(f"Saved {response.original_input_tokens - response.output_tokens} tokens")
         """
+        # Validate input
+        if not input or not input.strip():
+            raise InvalidRequestError("input cannot be empty")
+
         # Build compression settings
         if compression_settings is None:
             compression_settings = CompressionSettings(

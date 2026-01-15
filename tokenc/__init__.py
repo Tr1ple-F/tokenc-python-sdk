@@ -15,12 +15,14 @@ from tokenc.errors import (
     TokenCError,
     AuthenticationError,
     InvalidRequestError,
-    APIError,
+    PaymentRequiredError,
+    RequestTooLargeError,
     RateLimitError,
+    APIError,
 )
 from tokenc.constants import Model
 
-__version__ = "0.1.0"
+__version__ = "0.1.1"
 
 __all__ = [
     "TokenClient",
@@ -30,7 +32,9 @@ __all__ = [
     "TokenCError",
     "AuthenticationError",
     "InvalidRequestError",
-    "APIError",
+    "PaymentRequiredError",
+    "RequestTooLargeError",
     "RateLimitError",
+    "APIError",
     "Model",
 ]

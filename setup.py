@@ -9,7 +9,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="tokenc",
-    version="0.1.0",
+    version="0.1.1",
     author="The Token Company",
     description="Python SDK for The Token Company API - Compress LLM inputs to reduce costs",
     long_description=long_description,

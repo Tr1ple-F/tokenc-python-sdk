@@ -18,11 +18,21 @@ class InvalidRequestError(TokenCError):
     pass
 
 
-class APIError(TokenCError):
-    """Raised when the API returns an error."""
+class PaymentRequiredError(TokenCError):
+    """Raised when account has insufficient balance or exceeded debt limit."""
+    pass
+
+
+class RequestTooLargeError(TokenCError):
+    """Raised when the request exceeds size limits."""
     pass
 
 
 class RateLimitError(TokenCError):
     """Raised when the API rate limit is exceeded."""
+    pass
+
+
+class APIError(TokenCError):
+    """Raised when the API returns an error."""
     pass
