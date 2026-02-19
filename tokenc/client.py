@@ -3,6 +3,8 @@ Token Company API Client
 """
 
 from typing import Optional
+import gzip
+import json
 import requests
 
 from tokenc.constants import API_BASE_URL, DEFAULT_TIMEOUT, Model
@@ -56,6 +58,7 @@ class TokenClient:
         session.headers.update({
             "Authorization": f"Bearer {self.api_key}",
             "Content-Type": "application/json",
+            "Content-Encoding": "gzip",
         })
         return session
 
@@ -158,7 +161,7 @@ class TokenClient:
         try:
             response = self._session.post(
                 f"{self.base_url}/v1/compress",
-                json=payload,
+                data=gzip.compress(json.dumps(payload).encode()),
                 timeout=self.timeout,
             )
 
