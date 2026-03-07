@@ -19,7 +19,7 @@ class CompressionSettings:
     aggressiveness: float = 0.5
     max_output_tokens: Optional[int] = None
     min_output_tokens: Optional[int] = None
-    protect_json: bool = True
+    protect_json: bool = False
 
     def __post_init__(self):
         """Validate compression settings."""
