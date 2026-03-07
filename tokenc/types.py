@@ -15,6 +15,8 @@ class CompressionSettings:
         aggressiveness: Compression intensity from 0.0 to 1.0 (default: 0.5)
         max_output_tokens: Optional maximum token count for output
         min_output_tokens: Optional minimum token count for output
+        protect_json: If True, prevents compressing JSON objects
+            in the input (default: False)
     """
     aggressiveness: float = 0.5
     max_output_tokens: Optional[int] = None
@@ -45,6 +47,7 @@ class CompressionSettings:
             "aggressiveness": self.aggressiveness,
             "max_output_tokens": self.max_output_tokens,
             "min_output_tokens": self.min_output_tokens,
+            "protect_json": self.protect_json,
         }
 
 

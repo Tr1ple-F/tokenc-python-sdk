@@ -100,6 +100,7 @@ class TokenClient:
         aggressiveness: float = 0.5,
         max_output_tokens: Optional[int] = None,
         min_output_tokens: Optional[int] = None,
+        protect_json: bool = False,
         compression_settings: Optional[CompressionSettings] = None,
     ) -> CompressResponse:
         """
@@ -114,9 +115,11 @@ class TokenClient:
                 - 0.7-0.9: Aggressive compression (maximum cost savings)
             max_output_tokens: Optional maximum token count for output
             min_output_tokens: Optional minimum token count for output
+            protect_json: If True, prevents compressing JSON objects
+                in the input (default: False)
             compression_settings: Optional CompressionSettings object. If provided,
                 individual parameters (aggressiveness, max_output_tokens,
-                min_output_tokens) are ignored.
+                min_output_tokens, protect_json) are ignored.
 
         Returns:
             CompressResponse containing the compressed output and metadata
@@ -148,6 +151,7 @@ class TokenClient:
                 aggressiveness=aggressiveness,
                 max_output_tokens=max_output_tokens,
                 min_output_tokens=min_output_tokens,
+                protect_json=protect_json,
             )
 
         # Build request payload
