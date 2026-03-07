@@ -3,7 +3,7 @@ Token Company API Client
 """
 
 from typing import Optional
-import gzip
+import brotli
 import json
 import requests
 
@@ -58,7 +58,7 @@ class TokenClient:
         session.headers.update({
             "Authorization": f"Bearer {self.api_key}",
             "Content-Type": "application/json",
-            "Content-Encoding": "gzip",
+            "Content-Encoding": "brotli",
         })
         return session
 
@@ -161,7 +161,7 @@ class TokenClient:
         try:
             response = self._session.post(
                 f"{self.base_url}/v1/compress",
-                data=gzip.compress(json.dumps(payload).encode()),
+                data=brotli.compress(json.dumps(payload).encode()),
                 timeout=self.timeout,
             )
 
