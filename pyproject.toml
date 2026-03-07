@@ -28,6 +28,7 @@ keywords = ["llm", "compression", "tokens", "ai", "api", "cost-optimization"]
 requires-python = ">=3.7"
 dependencies = [
     "requests>=2.25.0",
+    "brotli>=1.0.0"
 ]
 
 [project.optional-dependencies]

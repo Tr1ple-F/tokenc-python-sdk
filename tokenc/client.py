@@ -58,7 +58,7 @@ class TokenClient:
         session.headers.update({
             "Authorization": f"Bearer {self.api_key}",
             "Content-Type": "application/json",
-            "Content-Encoding": "brotli",
+            "Content-Encoding": "br",
         })
         return session
 
