@@ -1,3 +1,10 @@
-For any PRs, check if they affect the documentation by seeing if the signature of external functions and interfaces changes or if certain contextual information is changed.
-Cross-compare against your internal deep wiki and create a matching pull-request is the mintlify-docs as needed. When making changes to the docs view the documentation on the configured preview link and 
-add screenshots to the pull request here so that the new layout of the documentation can be viewed inline.
+# Review Guidelines
+
+## Documentation Alignment
+- Check if signatures/interface change for external function and highlight where documentation should be changed.
+- All topics for which there is a contextual documentation page need to be flagged so that contextual pages can be adapted with human review.
+- Ignore aligning documentation for changes to functions marked `@internal` or `@private`.
+
+## Ignore
+- Auto-generated files do not need review.
+- Lock files can be skipped.
