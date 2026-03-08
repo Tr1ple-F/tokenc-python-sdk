@@ -66,7 +66,7 @@ Compress text input for optimized LLM inference.
   The text to compress.
 </ResponseField>
 
-<ResponseField name="model" type="str" default="bear-1.2">
+<ResponseField name="model" type="str" default="bear-1">
   Model to use. `bear-1.2` (recommended), `bear-1.1`, or `bear-1`.
 </ResponseField>
 
@@ -82,7 +82,7 @@ Compress text input for optimized LLM inference.
   Minimum token count for output.
 </ResponseField>
 
-<ResponseField name="protect" type="bool" default="false">
+<ResponseField name="protect_json" type="bool" default="false">
   Prevents compressing JSON objects.
 </ResponseField>
 
@@ -108,7 +108,7 @@ Dataclass for compression configuration.
   Optional minimum output tokens.
 </ResponseField>
 
-<ResponseField name="protect" type="bool" default="false">
+<ResponseField name="protect_json" type="bool" default="false">
   Prevents compressing JSON objects.
 </ResponseField>
 
@@ -183,7 +183,7 @@ settings = CompressionSettings(
     aggressiveness=0.7,
     max_output_tokens=100,
     min_output_tokens=50,
-    protect=False
+    protect_json=False
 )
 
 response = client.compress_input(
@@ -240,6 +240,8 @@ from tokenc import (
     TokenClient,
     AuthenticationError,
     InvalidRequestError,
+    PaymentRequiredError,
+    RequestTooLargeError,
     RateLimitError,
     APIError
 )
@@ -252,6 +254,10 @@ except AuthenticationError:
     print("Invalid API key")
 except InvalidRequestError as e:
     print(f"Invalid request: {e}")
+except PaymentRequiredError:
+    print("Insufficient balance or debt limit exceeded")
+except RequestTooLargeError:
+    print("Request exceeds size limits")
 except RateLimitError:
     print("Rate limit exceeded, please wait")
 except APIError as e:
@@ -262,6 +268,8 @@ except APIError as e:
 |-----------|-------------|
 | `AuthenticationError` | Invalid API key |
 | `InvalidRequestError` | Invalid request parameters |
+| `PaymentRequiredError` | Insufficient balance or debt limit exceeded |
+| `RequestTooLargeError` | Request exceeds size limits |
 | `RateLimitError` | Rate limit exceeded |
 | `APIError` | Other API errors |
 
