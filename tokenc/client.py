@@ -100,7 +100,7 @@ class TokenClient:
         aggressiveness: float = 0.5,
         max_output_tokens: Optional[int] = None,
         min_output_tokens: Optional[int] = None,
-        protect_json: bool = False,
+        protect_json: Optional[bool] = None,
         protect: Optional[bool] = None,
         compression_settings: Optional[CompressionSettings] = None,
     ) -> CompressResponse:
@@ -145,8 +145,13 @@ class TokenClient:
             >>> print(f"Saved {response.original_input_tokens - response.output_tokens} tokens")
         """
         # Support 'protect' as an alias for 'protect_json'
-        if protect is not None and not protect_json:
-            protect_json = protect
+        if protect_json is not None:
+            _protect = protect_json
+        elif protect is not None:
+            _protect = protect
+        else:
+            _protect = False
+        protect_json = _protect
 
         # Validate input
         if not input or not input.strip():
