@@ -31,6 +31,7 @@ setup(
     python_requires=">=3.7",
     install_requires=[
         "requests>=2.25.0",
+        "brotli>=1.0.0",
     ],
     extras_require={
         "dev": [
