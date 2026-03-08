@@ -1,0 +1,116 @@
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "theme": "maple",
+  "name": "The Token Company",
+  "colors": {
+    "primary": "#E5C7A4",
+    "light": "#E5C7A4",
+    "dark": "#E5C7A4"
+  },
+  "background": {
+    "color": {
+      "dark": "#101010"
+    }
+  },
+  "favicon": "/favicon.svg",
+  "fonts": {
+    "heading": {
+      "family": "Geist",
+      "weight": 600,
+      "url": "https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&display=swap"
+    },
+    "body": {
+      "family": "Geist",
+      "weight": 400,
+      "url": "https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&display=swap"
+    }
+  },
+  "appearance": {
+    "default": "dark",
+    "strict": true
+  },
+  "icons": {
+    "library": "lucide"
+  },
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Docs",
+        "groups": [
+          {
+            "group": "Docs",
+            "pages": ["index", "examples", "gzip", "protect-text", "python-sdk", "npm-sdk"]
+          }
+        ]
+      }
+    ],
+    "global": {
+      "anchors": [
+        {
+          "anchor": "Python SDK",
+          "href": "https://github.com/TheTokenCompany/tokenc-python-sdk",
+          "icon": "github"
+        },
+        {
+          "anchor": "npm Package",
+          "href": "https://github.com/TheTokenCompany/tokenc-npm-sdk",
+          "icon": "github"
+        }
+      ]
+    }
+  },
+  "logo": {
+    "light": "/logo/light.svg",
+    "dark": "/logo/dark.svg",
+    "href": "https://thetokencompany.com"
+  },
+  "navbar": {
+    "links": [
+      {
+        "label": "Benchmarks",
+        "href": "https://thetokencompany.com/benchmarks"
+      },
+      {
+        "label": "Contact",
+        "href": "https://thetokencompany.com/contact"
+      },
+      {
+        "label": "Log In",
+        "href": "https://app.thetokencompany.com"
+      }
+    ],
+    "primary": {
+      "type": "button",
+      "label": "Get Started",
+      "href": "https://accounts.thetokencompany.com/sign-up"
+    }
+  },
+  "contextual": {
+    "options": [
+      "copy",
+      "view",
+      "chatgpt",
+      "claude",
+      "perplexity",
+      "mcp",
+      "cursor",
+      "vscode"
+    ]
+  },
+  "styling": {
+    "codeblocks": "dark"
+  },
+  "seo": {
+    "metatags": {
+      "og:image": "/og-image.svg"
+    }
+  },
+  "errors": {
+    "404": {
+      "redirect": false,
+      "title": "Page not found",
+      "description": "The page you're looking for doesn't exist. [Go back to the docs](/docs)."
+    }
+  },
+  "footer": {}
+}
