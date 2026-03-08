@@ -101,6 +101,7 @@ class TokenClient:
         max_output_tokens: Optional[int] = None,
         min_output_tokens: Optional[int] = None,
         protect_json: bool = False,
+        protect: Optional[bool] = None,
         compression_settings: Optional[CompressionSettings] = None,
     ) -> CompressResponse:
         """
@@ -117,6 +118,8 @@ class TokenClient:
             min_output_tokens: Optional minimum token count for output
             protect_json: If True, prevents compressing JSON objects
                 in the input (default: False)
+            protect: Alias for protect_json. If both are provided,
+                protect_json takes precedence.
             compression_settings: Optional CompressionSettings object. If provided,
                 individual parameters (aggressiveness, max_output_tokens,
                 min_output_tokens, protect_json) are ignored.
@@ -141,6 +144,10 @@ class TokenClient:
             >>> print(f"Compressed: {response.output}")
             >>> print(f"Saved {response.original_input_tokens - response.output_tokens} tokens")
         """
+        # Support 'protect' as an alias for 'protect_json'
+        if protect is not None and not protect_json:
+            protect_json = protect
+
         # Validate input
         if not input or not input.strip():
             raise InvalidRequestError("input cannot be empty")
