@@ -240,6 +240,8 @@ from tokenc import (
     TokenClient,
     AuthenticationError,
     InvalidRequestError,
+    PaymentRequiredError,
+    RequestTooLargeError,
     RateLimitError,
     APIError
 )
@@ -252,6 +254,10 @@ except AuthenticationError:
     print("Invalid API key")
 except InvalidRequestError as e:
     print(f"Invalid request: {e}")
+except PaymentRequiredError:
+    print("Insufficient balance or exceeded debt limit")
+except RequestTooLargeError:
+    print("Request exceeds size limits")
 except RateLimitError:
     print("Rate limit exceeded, please wait")
 except APIError as e:
